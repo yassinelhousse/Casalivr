@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import sequelize from "./src/config/database.js";
-import apiRoutes from "./src/routes/index.js";
+// import apiRoutes from "./src/routes/index.js";
 
 dotenv.config();
 
@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 // API routes
-app.use("/api", apiRoutes);
+// app.use("/api", apiRoutes);
 
 // Test route
 app.get("/health", (req, res) => {
