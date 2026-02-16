@@ -1,38 +1,34 @@
-export default (sequelize, DataTypes) => {
-  const Restaurant = sequelize.define(
-    "Restaurant",
-    {
-      id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        primaryKey: true,
-      },
+import { DataTypes } from "sequelize";
+import sequelize from "../config/database.js";
 
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-
-      category: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-
-      area: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+const Restaurant = sequelize.define(
+  "Restaurant",
+  {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
     },
-    {
-      tableName: "restaurants",
+
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-  );
 
-  Restaurant.associate = (models) => {
-    Restaurant.hasMany(models.MenuItem, {
-      foreignKey: "restaurantId",
-    });
-  };
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
 
-  return Restaurant;
-};
+    area: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "restaurants",
+    timestamps: true,
+  },
+);
+
+export default Restaurant;

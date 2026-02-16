@@ -1,21 +1,24 @@
-export default (sequelize, DataTypes) => {
-  const OrderItem = sequelize.define(
-    "OrderItem",
-    {
-      quantity: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-    },
-    {
-      tableName: "order_items",
-    },
-  );
+import { DataTypes } from "sequelize";
+import sequelize from "../config/database.js";
 
-  OrderItem.associate = (models) => {
-    OrderItem.belongsTo(models.Order, { foreignKey: "orderId" });
-    OrderItem.belongsTo(models.MenuItem, { foreignKey: "menuItemId" });
-  };
+const OrderItem = sequelize.define(
+  "OrderItem",
+  {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+    },
 
-  return OrderItem;
-};
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "order_items",
+    timestamps: true,
+  },
+);
+
+export default OrderItem;

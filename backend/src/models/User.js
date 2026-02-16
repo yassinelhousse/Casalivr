@@ -1,42 +1,23 @@
-export default (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    "User",
-    {
-      id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        primaryKey: true,
-      },
+import { DataTypes } from "sequelize";
+import sequelize from "../config/database.js";
 
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+const User = sequelize.define("User", {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+  },
+  name: DataTypes.STRING,
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  password: DataTypes.STRING,
+  role: {
+    type: DataTypes.ENUM("customer", "admin", "courier"),
+    defaultValue: "customer",
+  },
+});
 
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-      },
-
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-
-      role: {
-        type: DataTypes.ENUM("customer", "admin", "courier"),
-        defaultValue: "customer",
-      },
-    },
-    {
-      tableName: "users",
-    },
-  );
-
-  User.associate = (models) => {
-    User.hasMany(models.Order, { foreignKey: "userId" });
-  };
-
-  return User;
-};
+export default User;
