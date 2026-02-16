@@ -1,31 +1,29 @@
-export default (sequelize, DataTypes) => {
-  const Courier = sequelize.define(
-    "Courier",
-    {
-      id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        primaryKey: true,
-      },
+import { DataTypes } from "sequelize";
+import sequelize from "../config/database.js";
 
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-
-      vehicleType: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+const Courier = sequelize.define(
+  "Courier",
+  {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
     },
-    {
-      tableName: "couriers",
+
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-  );
 
-  Courier.associate = (models) => {
-    Courier.hasMany(models.Order, { foreignKey: "courierId" });
-  };
+    vehicleType: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "couriers",
+    timestamps: true,
+  },
+);
 
-  return Courier;
-};
+export default Courier;
