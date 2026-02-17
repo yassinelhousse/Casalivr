@@ -1,17 +1,17 @@
 import { Router } from "express";
-import * as orderController from "../controllers/order.controller.js";
+import {createOrder,getMyOrders,updateStatus}  from "../controllers/order.controller.js";
 import { protect } from "../middleware/auth.middleware.js";
 // import { authorize } from "../middlewares/role.middleware.js";
 
 const router = Router();
 
-router.post("/", protect, orderController.createOrder);
+router.post("/", protect, createOrder);
 
-router.get("/me",protect, orderController.myOrders);
+router.get("/me",protect, getMyOrders);
 
 router.patch(
   "/:id/status",
-    protect,
+    protect, updateStatus
 
 );
 

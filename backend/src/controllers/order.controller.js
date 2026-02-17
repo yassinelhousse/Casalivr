@@ -18,3 +18,18 @@ export const getMyOrders = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+export const updateStatus = async (req, res) => {
+  try {
+    const order = await orderService.updateOrderStatus(
+      req.params.id,
+      req.body.status,
+    );
+
+    res.json(order);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
