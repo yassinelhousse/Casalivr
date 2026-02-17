@@ -7,9 +7,9 @@ import Order from "./Order.js";
 import OrderItem from "./OrderItem.js";
 import Courier from "./Courier.js";
 
-// -----------------
+
 // Associations
-// -----------------
+
 
 User.hasMany(Order, { foreignKey: "userId" });
 Order.belongsTo(User, { foreignKey: "userId" });
@@ -26,9 +26,7 @@ OrderItem.belongsTo(MenuItem, { foreignKey: "menuItemId" });
 Courier.hasMany(Order, { foreignKey: "courierId" });
 Order.belongsTo(Courier, { foreignKey: "courierId" });
 
-// -----------------
-// Sync helper
-// -----------------
+
 
 export const syncDB = async () => {
   await sequelize.sync({ alter: true });
