@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import sequelize from "./src/config/database.js";
 import apiRoutes from "./src/routes/index.js";
 import { syncDB } from "./src/models/index.js";
-import app from "./src/app.js";
+// import app from "./src/app.js";
 
 dotenv.config();
 
