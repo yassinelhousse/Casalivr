@@ -1,11 +1,111 @@
-import { Tabs } from "expo-router";
+import { Tabs, useRouter } from "expo-router";
+import { useEffect } from "react";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { Platform, View, StyleSheet } from "react-native";
+import { useAuthStore } from "../../src/store/auth.store";
+
+function TabIcon({ name, focused }) {
+  return (
+    <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
+      <Icon name={name} size={24} color={focused ? "#fff" : "#888"} />
+    </View>
+  );
+}
 
 export default function TabsLayout() {
+  const router = useRouter();
+  const token = useAuthStore((state) => state.token);
+
+  useEffect(() => {
+    if (!token) {
+      router.replace("/auth/login");
+    }
+  }, [token]);
+
   return (
-    <Tabs>
-      <Tabs.Screen name="home" options={{ title: "Home" }} />
-      <Tabs.Screen name="orders" options={{ title: "Orders" }} />
-      <Tabs.Screen name="profile" options={{ title: "Profile" }} />
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: styles.tabBar,
+        tabBarItemStyle: styles.tabItem,
+      }}
+    >
+      <Tabs.Screen
+        name="home"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon name="home" focused={focused} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="cart"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon name="cart" focused={focused} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="orders"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon name="bookmark" focused={focused} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="profile"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabIcon name="user" focused={focused} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    position: "absolute",
+    left: 16,
+    right: 16,
+    bottom: 16,
+
+    height: Platform.OS === "ios" ? 82 : 72,
+    paddingTop: 10,
+    paddingBottom: Platform.OS === "ios" ? 22 : 12,
+
+    borderRadius: 24,
+    backgroundColor: "#fff",
+
+    shadowColor: "#000",
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+
+    elevation: 10,
+  },
+
+  tabItem: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  iconWrap: {
+    width: 46,
+    height: 46,
+    borderRadius: 18,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  iconWrapActive: {
+    backgroundColor: "#000",
+  },
+});
