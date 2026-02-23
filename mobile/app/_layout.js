@@ -3,6 +3,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useAuthStore } from "../src/store/auth.store";
 import { useRouter, useSegments } from "expo-router";
+import { useCartStore } from "../src/store/cart.store";
+import { Tabs } from "expo-router";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +36,14 @@ export default function RootLayout() {
   useEffect(() => {
     loadStoredAuth();
   }, []);
+  const loadCart = useCartStore((state) => state.loadCart);
+
+  useEffect(() => {
+    loadCart();
+  }, []);
+
+  
+
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -41,4 +51,6 @@ export default function RootLayout() {
       <Stack screenOptions={{ headerShown: false }} />
     </QueryClientProvider>
   );
+
+  
 }

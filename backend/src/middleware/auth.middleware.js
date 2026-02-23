@@ -1,3 +1,6 @@
+import jwt from "jsonwebtoken";
+import { User } from "../models/index.js";
+
 export const protect = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -10,18 +13,16 @@ export const protect = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const user = await User.findByPk(decoded.id, {
-      attributes: ["id", "name", "email", "role"],
-    });
+    const user = await User.findByPk(decoded.id);
 
     if (!user) {
       return res.status(401).json({ message: "User not found" });
     }
 
     req.user = user;
-
     next();
   } catch (error) {
+    console.log("PROTECT ERROR:", error);
     return res.status(401).json({ message: "Invalid token" });
   }
 };

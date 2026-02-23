@@ -15,3 +15,13 @@ export const getRestaurantMenus = async (restaurantId) => {
     order: [["name", "ASC"]],
   });
 };
+
+export const getRestaurantById = async (id) => {
+  const restaurant = await Restaurant.findByPk(id);
+
+  if (!restaurant) {
+    throw new Error("Restaurant not found");
+  }
+
+  return restaurant;
+};
